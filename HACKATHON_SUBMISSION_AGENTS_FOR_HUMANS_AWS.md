@@ -65,13 +65,14 @@ The agent equips human finance teams with an autonomous, policy-governed co-pilo
    - `batch_dispatch_invoices`: High-throughput concurrent multi-invoice processing across 256 lanes.
    - `verify_invoice_policy`: Pre-flight compliance and human escalation thresholds.
    - `query_treasury_status`: Real-time telemetry, active lane monitoring, and expenditure tracking.
+   - `auto_onboard_agent_tap`: Autonomous Ed25519 identity provisioning, Soulbound SynIdentityNFT minting, and TAP AgentRegistry attestation (ADR-888).
 3. **Layer-1 Concurrency & Settlement:** Connected to **SynapticChain Layer-1** via JSON-RPC (`https://nodes.synapticchain.xyz/rpc`), utilizing ADR-062 256-lane partition allocation and SCBFT DAG-Primary consensus.
 
 ---
 
 ## 🔬 Empirical Verification & Test Evidence
 
-### Automated Test Suite: 8/8 Tests Passing (Linux x86_64)
+### Automated Test Suite: 9/9 Tests Passing (Linux x86_64)
 ```bash
 pytest -v tests
 ```
@@ -81,18 +82,19 @@ platform linux -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0
 rootdir: /opt/synapticchain/packages/synaptic-strands-agent
 configfile: pyproject.toml
 plugins: anyio-4.13.0
-collected 8 items
+collected 9 items
 
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_01_agent_initialization PASSED [ 12%]
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_02_settle_x402_invoice PASSED [ 25%]
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_03_generate_and_clear_pacs008 PASSED [ 37%]
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_04_execute_tax_split_payment PASSED [ 50%]
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_05_policy_guardrails PASSED [ 62%]
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_06_batch_dispatch_concurrency PASSED [ 75%]
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_07_agent_prompt_execution PASSED [ 87%]
-tests/test_strands_agent.py::TestSynapticStrandsAgent::test_08_live_l1_rpc_connectivity PASSED [100%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_01_agent_initialization PASSED [ 11%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_02_settle_x402_invoice PASSED [ 22%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_03_generate_and_clear_pacs008 PASSED [ 33%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_04_execute_tax_split_payment PASSED [ 44%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_05_policy_guardrails PASSED [ 55%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_06_batch_dispatch_concurrency PASSED [ 66%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_07_agent_prompt_execution PASSED [ 77%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_08_live_l1_rpc_connectivity PASSED [ 88%]
+tests/test_strands_agent.py::TestSynapticStrandsAgent::test_09_auto_onboard_agent_tap PASSED [100%]
 
-============================== 8 passed in 2.03s ===============================
+============================== 9 passed in 10.22s ==============================
 ```
 
 ### 256-Lane High-Load Concurrency Benchmark

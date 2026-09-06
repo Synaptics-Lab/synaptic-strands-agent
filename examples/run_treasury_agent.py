@@ -94,6 +94,15 @@ def main():
     print_receipt("Compliance Policy Evaluation ($75,000.00 invoice)", compliance_check)
 
     # -------------------------------------------------------------
+    # Scenario 5: Autonomous TAP Agent Onboarding (ADR-888)
+    # -------------------------------------------------------------
+    print_header("Scenario 5: Autonomous TAP Agent Onboarding & Soulbound Identity (ADR-888)")
+    print("Human Task Eliminated: Manually creating wallets, funding gas, and whitelisting API keys.")
+    onboard_tool = agent.tools["auto_onboard_agent_tap"]
+    onboard_res = onboard_tool(nullifier=f"strands-showcase-{int(time.time())}")
+    print_receipt("Live On-Chain TAP Identity & Soulbound NFT Mint", onboard_res)
+
+    # -------------------------------------------------------------
     # Final Treasury Telemetry
     # -------------------------------------------------------------
     print_header("Final Real-Time Treasury Telemetry & Metrics")

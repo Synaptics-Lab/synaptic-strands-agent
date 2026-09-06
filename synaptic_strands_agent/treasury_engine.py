@@ -123,6 +123,62 @@ class TreasuryEngine:
             logger.debug(f"Error querying balance for {address}: {err}")
         return None
 
+    def auto_onboard_tap(
+        self,
+        nullifier: str = "",
+        referrer: str = "",
+        onboard_url: str = "https://nodes.synapticchain.xyz/api/onboard"
+    ) -> Dict[str, Any]:
+        """
+        Executes zero-friction autonomous agent onboarding via ADR-888 TAP protocol.
+        Calls the L1 gateway to generate an Ed25519 identity, mint a Soulbound
+        SynIdentityNFT, attest in the TAP AgentRegistry, and receive starter gas.
+        """
+        import httpx
+        payload: Dict[str, Any] = {}
+        if nullifier:
+            payload["nullifier"] = nullifier
+        if referrer:
+            payload["referrer"] = referrer
+
+        try:
+            with httpx.Client(verify=False, timeout=15.0) as client:
+                res = client.post(
+                    onboard_url,
+                    json=payload,
+                    headers={"Content-Type": "application/json", "User-Agent": "SynapticStrandsAgent/1.0"}
+                )
+                if res.status_code == 200:
+                    data = res.json()
+                    if data.get("success") or data.get("status") == "success":
+                        agent_addr = data.get("agent_address") or data.get("agent")
+                        if agent_addr and agent_addr not in self.balances:
+                            self.balances[agent_addr] = 0.5
+                        return {
+                            "success": True,
+                            "status": "SUCCESS_ONBOARDED",
+                            "agent_address": agent_addr,
+                            "pubkey": data.get("pubkey"),
+                            "private_key": data.get("private_key"),
+                            "token_id": data.get("token_id"),
+                            "identity_tx": data.get("identity_tx"),
+                            "register_tx": data.get("register_tx"),
+                            "syn_tx": data.get("syn_tx"),
+                            "susd_tx": data.get("susd_tx"),
+                            "bot_tx": data.get("bot_tx"),
+                            "zmw_tx": data.get("zmw_tx"),
+                            "balances": data.get("balances", {"SYN": 0.5, "sUSD": 0.5, "BOTCOIN": 1.0}),
+                            "persona": data.get("persona"),
+                            "onboard_protocol": "ADR-888-TAP-SOULBOUND"
+                        }
+                    else:
+                        return {"success": False, "status": "FAILED", "error": data.get("error", "Unknown gateway error")}
+                else:
+                    return {"success": False, "status": "HTTP_ERROR", "code": res.status_code, "error": res.text}
+        except Exception as err:
+            logger.error(f"Error executing TAP auto-onboarding: {err}")
+            return {"success": False, "status": "NETWORK_ERROR", "error": str(err)}
+
     def get_lane_for_counterparty(self, counterparty: str) -> int:
         """
         Deterministically maps a counterparty address or UETR to one of 256 execution lanes.

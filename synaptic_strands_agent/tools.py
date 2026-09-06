@@ -336,3 +336,27 @@ def verify_invoice_policy(amount_susd: float, vendor_address: str) -> str:
         "approval_granted": True,
         "remaining_daily_budget": round(policy.daily_spend_limit - policy.current_daily_spend, 2)
     }, indent=2)
+
+
+@tool
+def auto_onboard_agent_tap(
+    nullifier: str = "",
+    referrer: str = ""
+) -> str:
+    """
+    Autonomously provisions a fresh Ed25519 agent identity, mints a Soulbound SynIdentityNFT,
+    attests with the on-chain TAP AgentRegistry, and claims starter gas (SYN, sUSD, $BOTCOIN)
+    via the SynapticChain ADR-888 TAP auto-onboarding protocol.
+
+    Args:
+        nullifier: Optional unique identity nullifier string (e.g. 'strands-treasury-worker-01').
+        referrer: Optional referrer address to grant on-chain referral bonuses.
+
+    Returns:
+        JSON string containing the provisioned Bech32m address, soulbound Token ID,
+        attestation transaction hashes, and starter asset balances.
+    """
+    engine = get_engine()
+    result = engine.auto_onboard_tap(nullifier=nullifier, referrer=referrer)
+    return json.dumps(result, indent=2)
+

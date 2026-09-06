@@ -20,6 +20,7 @@ from .tools import (
     query_treasury_status,
     batch_dispatch_invoices,
     verify_invoice_policy,
+    auto_onboard_agent_tap,
     get_engine,
     set_engine
 )
@@ -46,6 +47,7 @@ __all__ = [
     "query_treasury_status",
     "batch_dispatch_invoices",
     "verify_invoice_policy",
+    "auto_onboard_agent_tap",
     "get_engine",
     "set_engine"
 ]

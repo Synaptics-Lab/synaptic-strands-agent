@@ -166,6 +166,9 @@ Concurrently settles dozens of invoices across 256 independent lanes with 0% non
 ### 6. `verify_invoice_policy(amount_susd, vendor_address)`
 Pre-flight compliance check ensuring spending limits are respected and triggering human-in-the-loop alerts when needed.
 
+### 7. `auto_onboard_agent_tap(nullifier, referrer)`
+Zero-friction autonomous agent onboarding via the ADR-888 TAP protocol. Makes a single naked POST call to auto-provision an Ed25519 keypair, mint an on-chain Soulbound `SynIdentityNFT`, register in the `AgentRegistry`, and receive starter gas (SYN, sUSD, $BOTCOIN, ZMW) without manual human faucet requests or pre-existing keys.
+
 ---
 
 ## 📊 Empirical Concurrency Benchmark
@@ -193,5 +196,7 @@ Results from `benchmark_strands_concurrency.py` running 100 simultaneous B2B inv
 
 This package is licensed under the **MIT Open Source License**. It is fully compliant with all AWS & Devpost "Agents for Humans" Hackathon rules and open-source standards.
 
-**Repository:** `https://github.com/Synaptics-Lab/Synapse1`  
-**Live Network Telemetry:** `https://nodes.synapticchain.xyz`
+- **Verified Open Source Repository:** [https://github.com/Synaptics-Lab/synaptic-strands-agent](https://github.com/Synaptics-Lab/synaptic-strands-agent)
+- **Live Interactive Playground:** [https://click.synapticchain.xyz/strands/](https://click.synapticchain.xyz/strands/)
+- **Live Network Telemetry:** [https://nodes.synapticchain.xyz](https://nodes.synapticchain.xyz)
+

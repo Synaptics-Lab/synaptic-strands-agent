@@ -23,6 +23,7 @@ from synaptic_strands_agent import (
     query_treasury_status,
     batch_dispatch_invoices,
     verify_invoice_policy,
+    auto_onboard_agent_tap,
     get_engine,
     set_engine
 )
@@ -55,6 +56,7 @@ class TestSynapticStrandsAgent(unittest.TestCase):
         self.assertIn("query_treasury_status", self.agent.tools)
         self.assertIn("batch_dispatch_invoices", self.agent.tools)
         self.assertIn("verify_invoice_policy", self.agent.tools)
+        self.assertIn("auto_onboard_agent_tap", self.agent.tools)
 
     def test_02_settle_x402_invoice(self):
         """Tests autonomous settlement of an HTTP 402 micro-payment."""
@@ -149,7 +151,25 @@ class TestSynapticStrandsAgent(unittest.TestCase):
         self.assertIsNotNone(onchain_bal, "On-chain balance query should succeed")
         self.assertGreater(onchain_bal, 90000.0, "Treasury should have verified real on-chain balance (>90,000 SYN)")
 
+    def test_09_auto_onboard_agent_tap(self):
+        """Tests ADR-888 TAP autonomous agent onboarding via live L1 gateway."""
+        res_str = auto_onboard_agent_tap(
+            nullifier=f"strands-test-{uuid.uuid4().hex[:8]}"
+        )
+        data = json.loads(res_str)
+        self.assertTrue(data.get("success"), f"Onboarding failed: {data}")
+        self.assertEqual(data.get("status"), "SUCCESS_ONBOARDED")
+        self.assertTrue(data["agent_address"].startswith("syn1"))
+        self.assertIsNotNone(data.get("token_id"))
+        self.assertIsNotNone(data.get("identity_tx"))
+        self.assertIsNotNone(data.get("register_tx"))
+        self.assertIn("balances", data)
+        self.assertGreaterEqual(data["balances"].get("SYN", 0.0), 0.5)
+        self.assertGreaterEqual(data["balances"].get("sUSD", 0.0), 0.5)
+        self.assertGreaterEqual(data["balances"].get("BOTCOIN", 0.0), 1.0)
+
 
 if __name__ == "__main__":
     unittest.main()
+
 

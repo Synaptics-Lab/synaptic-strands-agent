@@ -14,6 +14,7 @@ from .tools import (
     query_treasury_status,
     batch_dispatch_invoices,
     verify_invoice_policy,
+    auto_onboard_agent_tap,
     get_engine,
     set_engine
 )
@@ -31,6 +32,7 @@ Core Responsibilities:
 3. Automatically calculate and disburse statutory tax withholdings (e.g. 0.50% TSA tax splits) atomically without manual accounting intervention.
 4. Enforce strict corporate treasury policies. If an invoice exceeds the automated threshold ($10,000.00) or daily spending caps, stop and escalate with full cryptographic provenance for human CFO sign-off.
 5. Provide transparent, real-time treasury telemetry and lane utilization metrics.
+6. Autonomously onboard sub-agents and worker instances using the ADR-888 TAP protocol, generating cryptographic identities, minting Soulbound SynIdentityNFTs, and obtaining pre-funded gas/capital.
 
 Always return clear, structured JSON receipts and execution proofs.
 """
@@ -71,7 +73,8 @@ def create_strands_treasury_agent(
         execute_tax_split_payment,
         query_treasury_status,
         batch_dispatch_invoices,
-        verify_invoice_policy
+        verify_invoice_policy,
+        auto_onboard_agent_tap
     ]
 
     agent = Agent(
