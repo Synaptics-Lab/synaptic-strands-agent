@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synaptic-strands-agent"
+version = "0.1.0"
+description = "Autonomous Corporate Treasury, Zero-Click Invoicing & ISO 20022 Clearing Agent built with AWS Strands Agents SDK on SynapticChain Layer-1"
+readme = "README.md"
+authors = [{ name = "SynapticChain Core Architecture Team", email = "veritasvaultone@gmail.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Office/Business :: Financial :: Accounting",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "strands-agents>=0.1.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0",
+]
+
+[project.optional-dependencies]
+bedrock = [
+    "boto3>=1.28.0",
+]
+openai = [
+    "openai>=1.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[project.urls]
+"Homepage" = "https://synapticchain.xyz"
+"Repository" = "https://github.com/Synaptics-Lab/synaptic-strands-agent"
+"Documentation" = "https://nodes.synapticchain.xyz/docs"
+"Hackathon Submission" = "https://agentsforhumans.devpost.com"
