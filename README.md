@@ -6,7 +6,9 @@
 [![Layer-1 Concurrency](https://img.shields.io/badge/SynapticChain-256%20Lanes%20(ADR--062)-00D2FF.svg)](https://nodes.synapticchain.xyz)
 
 > **Submission for the AWS & Devpost "Agents for Humans" Hackathon ($40,000 Cash Prize)**  
-> **Track:** **Track 2: Professional Agents** (Automating routine business & accounting workflows)
+> **Track:** **Track 2: Professional Agents** (Automating routine business & accounting workflows)  
+> **Live Interactive Playground:** [https://click.synapticchain.xyz/strands/](https://click.synapticchain.xyz/strands/)  
+> **Open Source Codebase:** [https://github.com/Synaptics-Lab/synaptic-strands-agent](https://github.com/Synaptics-Lab/synaptic-strands-agent) (MIT License)
 
 ---
 

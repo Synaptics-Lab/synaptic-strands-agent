@@ -28,6 +28,10 @@
 ### 5. License
 `MIT License (OSI Approved)`
 
+### 6. Live Demo / Interactive Playground URL
+`https://click.synapticchain.xyz/strands/`
+
+
 ---
 
 ## 📖 The Project Story
