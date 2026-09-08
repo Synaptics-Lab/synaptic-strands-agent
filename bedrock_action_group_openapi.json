@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Synaptic Strands Corporate Treasury Action Group",
+    "version": "1.0.0",
+    "description": "Amazon Bedrock Agent Action Group for autonomous corporate treasury, ISO 20022 wire clearing, and HTTP 402 settlements on SynapticChain Layer-1."
+  },
+  "paths": {
+    "/settle_x402_invoice": {
+      "post": {
+        "summary": "Settle HTTP 402 micro-payment invoice",
+        "description": "Settles machine-to-machine API paywalls in <150ms across 256 independent execution lanes.",
+        "operationId": "settle_x402_invoice",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "invoice_id": {
+                    "type": "string",
+                    "example": "inv_aws_402_001"
+                  },
+                  "amount_susd": {
+                    "type": "number",
+                    "example": 15.5
+                  },
+                  "vendor_address": {
+                    "type": "string",
+                    "example": "syn1vendor_api_provider_node"
+                  },
+                  "memo": {
+                    "type": "string",
+                    "example": "Real-time AI Inference Fee"
+                  }
+                },
+                "required": [
+                  "invoice_id",
+                  "amount_susd",
+                  "vendor_address"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Invoice successfully settled on-chain",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "tx_hash": {
+                      "type": "string"
+                    },
+                    "allocated_lane": {
+                      "type": "integer"
+                    },
+                    "finality_ms": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generate_and_clear_pacs008": {
+      "post": {
+        "summary": "Clear ISO 20022 pacs.008 wire transfer",
+        "description": "Generates CBPR+ valid XML and executes atomic on-chain clearing.",
+        "operationId": "generate_and_clear_pacs008",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "debtor_name": {
+                    "type": "string"
+                  },
+                  "debtor_iban": {
+                    "type": "string"
+                  },
+                  "creditor_name": {
+                    "type": "string"
+                  },
+                  "creditor_iban": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "default": "sUSD"
+                  },
+                  "uetr": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "debtor_name",
+                  "debtor_iban",
+                  "creditor_name",
+                  "creditor_iban",
+                  "amount"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ISO 20022 wire cleared and settled"
+          }
+        }
+      }
+    },
+    "/execute_tax_split_payment": {
+      "post": {
+        "summary": "Execute automated gross / tax split payment",
+        "description": "Atomically routes 99.50% net vendor payout and 0.50% statutory withholding.",
+        "operationId": "execute_tax_split_payment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vendor_address": {
+                    "type": "string"
+                  },
+                  "gross_amount": {
+                    "type": "number"
+                  },
+                  "tax_rate_percent": {
+                    "type": "number",
+                    "default": 0.5
+                  }
+                },
+                "required": [
+                  "vendor_address",
+                  "gross_amount"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Gross disbursement and tax withholding settled atomically"
+          }
+        }
+      }
+    },
+    "/query_treasury_status": {
+      "get": {
+        "summary": "Query corporate treasury liquidity and status",
+        "description": "Returns vault balances, lane congestion, and daily spend metrics.",
+        "operationId": "query_treasury_status",
+        "responses": {
+          "200": {
+            "description": "Live treasury metrics"
+          }
+        }
+      }
+    }
+  }
+}

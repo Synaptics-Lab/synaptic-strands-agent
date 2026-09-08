@@ -192,7 +192,37 @@ Results from `benchmark_strands_concurrency.py` running 100 simultaneous B2B inv
 
 ---
 
+## 🤖 Amazon Bedrock AgentCore & Action Group Deployment
+
+Synaptic Strands Agent provides first-class, verified support for **Amazon Bedrock AgentCore** and the **Bedrock Converse API**:
+
+### 1. 1-Click Bedrock Action Group Schema (`bedrock_action_group_openapi.json`)
+The repository includes the official OpenAPI 3.0.0 Action Group specification defining all 7 corporate treasury tools:
+- **AWS Console Import:** Under **Amazon Bedrock** → **Agents** → **Action Groups**, select **Define with API schemas** and provide [`bedrock_action_group_openapi.json`](bedrock_action_group_openapi.json).
+- Bedrock automatically binds all 7 endpoints (`/settle_x402_invoice`, `/generate_and_clear_pacs008`, `/execute_tax_split_payment`, `/query_treasury_status`, etc.) with strict schema parameter enforcement.
+
+### 2. Bedrock Converse Tool-Use Protocol (`synaptic_strands_agent.bedrock`)
+Execute autonomous tool loops directly through Amazon Bedrock Runtime with Anthropic Claude 3.5 Sonnet:
+
+```python
+import boto3
+from synaptic_strands_agent.bedrock import BedrockConverseAgent
+
+# Initialize with Amazon Bedrock Claude 3.5 Sonnet
+client = boto3.client("bedrock-runtime", region_name="us-east-1")
+agent = BedrockConverseAgent(model_id="anthropic.claude-3-5-sonnet-20240620-v1:0")
+
+# Dispatch autonomous prompt with registered Action Group tools
+response = agent.run_converse_turn(
+    prompt="Settle invoice inv_402_001 for $45.00 to syn1vendor_api_provider",
+    client=client
+)
+```
+
+---
+
 ## 📄 License & Compliance
+
 
 This package is licensed under the **MIT Open Source License**. It is fully compliant with all AWS & Devpost "Agents for Humans" Hackathon rules and open-source standards.
 

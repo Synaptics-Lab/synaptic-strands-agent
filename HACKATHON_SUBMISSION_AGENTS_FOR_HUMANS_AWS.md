@@ -58,7 +58,8 @@ The agent equips human finance teams with an autonomous, policy-governed co-pilo
 ## 🛠️ How It Was Built
 
 1. **Agent Orchestration Harness:** Built using the official **AWS Strands Agents SDK** (`strands-agents`). Includes a clean backward-compatibility engine (`synaptic_strands_agent.compat`) enabling seamless deployment across both native AWS Bedrock environments and sovereign runtime servers.
-2. **Tool Suite (`@tool` Decorated):**
+2. **Amazon Bedrock AgentCore & Action Groups:** Includes an official OpenAPI 3.0.0 Action Group specification (`bedrock_action_group_openapi.json`) for 1-click import into the AWS Bedrock Console, alongside native Converse API tool-use support (`synaptic_strands_agent.bedrock.BedrockConverseAgent`) for Claude 3.5 Sonnet.
+3. **Tool Suite (`@tool` Decorated):**
    - `settle_x402_invoice`: Autonomous HTTP 402 micro-payment settlement.
    - `generate_and_clear_pacs008`: Canonical ISO 20022 XML generation and L1 wire clearing.
    - `execute_tax_split_payment`: Atomic statutory tax withholding calculation and dual-lane dispatch.
@@ -66,18 +67,19 @@ The agent equips human finance teams with an autonomous, policy-governed co-pilo
    - `verify_invoice_policy`: Pre-flight compliance and human escalation thresholds.
    - `query_treasury_status`: Real-time telemetry, active lane monitoring, and expenditure tracking.
    - `auto_onboard_agent_tap`: Autonomous Ed25519 identity provisioning, Soulbound SynIdentityNFT minting, and TAP AgentRegistry attestation (ADR-888).
-3. **Layer-1 Concurrency & Settlement:** Connected to **SynapticChain Layer-1** via JSON-RPC (`https://nodes.synapticchain.xyz/rpc`), utilizing ADR-062 256-lane partition allocation and SCBFT DAG-Primary consensus.
+4. **Layer-1 Concurrency & Settlement:** Connected to **SynapticChain Layer-1** via JSON-RPC (`https://nodes.synapticchain.xyz/rpc`), utilizing ADR-062 256-lane partition allocation and SCBFT DAG-Primary consensus.
 
 ---
 
 ## 🔬 Empirical Verification & Test Evidence
 
-### Automated Test Suite: 9/9 Tests Passing (Linux x86_64)
+### Automated Test Suite: 10/10 Tests Passing (Linux x86_64)
 ```bash
 pytest -v tests
 ```
 ```
 ============================= test session starts ==============================
+
 platform linux -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0
 rootdir: /opt/synapticchain/packages/synaptic-strands-agent
 configfile: pyproject.toml

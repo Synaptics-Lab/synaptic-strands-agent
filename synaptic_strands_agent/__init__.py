@@ -25,6 +25,11 @@ from .tools import (
     set_engine
 )
 from .agent import create_strands_treasury_agent
+from .bedrock import (
+    BedrockConverseAgent,
+    export_bedrock_action_group_openapi,
+    get_bedrock_tools_spec
+)
 
 __version__ = "0.1.0"
 __author__ = "SynapticChain Core Architecture Team"
@@ -34,6 +39,9 @@ __all__ = [
     "Agent",
     "tool",
     "create_strands_treasury_agent",
+    "BedrockConverseAgent",
+    "export_bedrock_action_group_openapi",
+    "get_bedrock_tools_spec",
     "TreasuryEngine",
     "Invoice",
     "LineItem",
@@ -51,3 +59,4 @@ __all__ = [
     "get_engine",
     "set_engine"
 ]
+

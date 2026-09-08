@@ -169,6 +169,32 @@ class TestSynapticStrandsAgent(unittest.TestCase):
         self.assertGreaterEqual(data["balances"].get("BOTCOIN", 0.0), 1.0)
 
 
+    def test_10_amazon_bedrock_integration(self):
+        """Verifies Amazon Bedrock Agent Action Group OpenAPI schema and Bedrock Converse harness."""
+        from synaptic_strands_agent.bedrock import export_bedrock_action_group_openapi, BedrockConverseAgent, get_bedrock_tools_spec
+        
+        # 1. Test OpenAPI schema structure
+        schema = export_bedrock_action_group_openapi()
+        self.assertEqual(schema["openapi"], "3.0.0")
+        self.assertIn("/settle_x402_invoice", schema["paths"])
+        self.assertIn("/generate_and_clear_pacs008", schema["paths"])
+        self.assertIn("/execute_tax_split_payment", schema["paths"])
+        self.assertIn("/query_treasury_status", schema["paths"])
+        
+        # 2. Test Bedrock Converse tool specs
+        specs = get_bedrock_tools_spec()
+        self.assertEqual(len(specs), 7)
+        tool_names = [s["toolSpec"]["name"] for s in specs]
+        self.assertIn("settle_x402_invoice", tool_names)
+        self.assertIn("generate_and_clear_pacs008", tool_names)
+        
+        # 3. Test Bedrock Converse Agent runner
+        runner = BedrockConverseAgent()
+        res = runner.run_converse_turn("Settle invoice inv_aws_001 for $10.00")
+        self.assertEqual(res["status"], "COMPLETED")
+        self.assertEqual(res["tool_specs_registered"], 7)
+
+
 if __name__ == "__main__":
     unittest.main()
 
