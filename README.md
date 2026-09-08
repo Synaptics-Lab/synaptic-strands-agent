@@ -88,17 +88,17 @@ pip install synaptic-strands-agent strands-agents pydantic httpx
 ### 2. Standalone Interactive Demo
 Run the complete multi-scenario showcase:
 ```bash
-python3 packages/synaptic-strands-agent/examples/run_treasury_agent.py
+python3 examples/run_treasury_agent.py
 ```
 
 ### 3. Run the 256-Lane Concurrency Benchmark
 ```bash
-python3 packages/synaptic-strands-agent/examples/benchmark_strands_concurrency.py
+python3 examples/benchmark_strands_concurrency.py
 ```
 
 ### 4. Execute Automated Test Suite
 ```bash
-python3 packages/synaptic-strands-agent/tests/test_strands_agent.py
+pytest -v tests
 ```
 
 ---
